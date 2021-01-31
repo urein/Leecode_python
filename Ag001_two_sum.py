@@ -1,14 +1,3 @@
-"""
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
-You can return the answer in any order.
-
-Example:
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Output: Because nums[0] + nums[1] == 9, we return [0, 1].
-"""
-
 from operator import itemgetter
 
 
@@ -43,10 +32,10 @@ class Solution:
 
     def two_sum(self, nums: list, target: int):
         """
-        record searched items in a dict (hash table),
-        search (target - n_tmp) from the dict.
-        O-complexity of search in a hash-table is O(1)
-        trade space for time
+        用一个dict保存已经遍历过的元素，key是元素值，value是该元素的索引。
+        对于当前遍历的元素n，在dict中查找 diff=target-n 是否存在，如果存在则直接返回n和diff的索引，
+        否则将n记录在dict中。
+        在基于hash表的dict中查找元素的时间复杂度是O(1)：空间换时间
         """
         memeory = {nums[0]: 0}
         for idx, n in enumerate(nums[1:], 1):

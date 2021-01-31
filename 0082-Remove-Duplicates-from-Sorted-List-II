@@ -1,0 +1,39 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def deleteDuplicates(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head or not head.next:
+            return head
+
+        dummy = ListNode(-1)
+        dummy.next = head
+        p1 = dummy
+        p2 = head
+        while p2 and p2.next:
+            if p2.val != p2.next.val:
+                p1 = p2
+                p2 = p2.next
+            else:
+                val = p2.val
+                while p2 and p2.val == val:
+                    p2 = p2.next
+                p1.next = p2
+
+        return dummy.next
+        
+        
+总结：
+使用双指针p1和p2。如果p2的值和p2.next的值不相等，就同时移动p1和p2。
+否则记录当前p2的值val并一直让p2向后移，直到p2的值不等于val后，让p1.next再指向p2。
+
+这里用到了双指针，所以要善用dummy node。初始位置让p1指向dummy，p2指向head。因此p1和p2的值在一开始一定不等。
+如果一上来就有重复的节点，head也是要被删除的。因此必须使用dummy，且最终的返回值应当是dummy.next。
+
+特殊情况，当head为None或head.next也为None时直接返回head。

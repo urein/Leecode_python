@@ -1,0 +1,21 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        if node:
+            node.val = node.next.val
+            node.next = node.next.next
+
+
+总结：
+这里由于不知道头节点，因此待删除的node的前一个节点也是不可能知道的。
+因此唯一的办法是将node的下一个节点的值拷贝给node，然后将node.next指向node.next.next。
+需要注意的是，一定是将值拷贝过来：node.val = node.next.val，而不是node = node.next

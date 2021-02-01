@@ -1,0 +1,22 @@
+class Solution:
+    def isValid(self, s: str) -> bool:        
+        lookup = {'(': ')', '[': ']', '{': '}'}
+        stack = []
+        
+        for c in s:
+            if c in lookup:
+                stack.append(c)
+            elif len(stack) == 0 or lookup[stack.pop()] != c:
+                return False
+
+        return len(stack) == 0
+
+
+    
+    
+    
+总结：
+使用栈。如果当前符号是 '{' '(' 或 '['，则直接入栈。
+否则当前符号一定是回括号'}' ')' 或 ']'中的一个。此时如果stack为空，返回False
+如果栈顶元素能够匹配当前的回括号，弹出栈顶元素。
+遍历完所有符号之后，如果stack为空，则返回True，否则返回False。

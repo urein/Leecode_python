@@ -1,0 +1,26 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        if not preorder or not inorder:
+            return None
+        
+        root_val = preorder[0]
+        in_root_idx = inorder.index(root_val)
+        
+        root = TreeNode(root_val)
+        root.left = self.buildTree(preorder[1:in_root_idx+1], inorder[:in_root_idx])
+        root.right = self.buildTree(preorder[in_root_idx+1:], inorder[in_root_idx+1:])
+        return root
+
+
+
+
+总结：
+前序遍历序列的第一个节点r一定是root。然后在中序遍历序列中寻找这个r的index，在它左边的就是左子树部分，右边就是右子树部分。
+以递归的方式分别构建左子树和右子树，子树的前序和中序遍历是原序列的子列表，由index决定。
+递归函数不要忘记返回当前的root。最后不要忘记递归出口：如果前序遍历或中序遍历的列表为空时，退出递归。

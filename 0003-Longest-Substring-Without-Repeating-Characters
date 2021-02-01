@@ -1,0 +1,35 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        d = {}
+        pre_len = 0
+        max_len = 0
+        for i, c in enumerate(s):
+            if c not in d:
+                d[c] = i
+                pre_len += 1
+                if pre_len > max_len:
+                    max_len = pre_len
+            else:
+                if i - d[c] > pre_len:
+                    pre_len += 1
+                else:
+                    pre_len = i - d[c]      
+                d[c] = i
+                
+                if pre_len > max_len:
+                    max_len = pre_len
+        
+        return max_len
+     
+     
+        
+总结：
+本题同剑指offer的48题。假设s为 arabcacfr
+我们用f(i)表示以第i个字符为结尾的最大子字符串。于是f(i+1)有以下几种情况：
+1. s[i+1]在之前从未出现过，此时f(i+1)=f(i)+1，这种情况最简单
+2. s[i+1]在之前出现过，此时有两种情况：
+  2.1 上次出现的s[i+1]不包含在以第i个字符为结尾的子字符串中。比如以倒数第二个f结尾的最长子字符串是acf。而上一个r出现在第二个位置，显然不包含在acf中，此时依然满足f(i+1)=f(i)+1
+  2.2 上次出现的那个s[i+1]包含在以第i个字符为结尾的子字符串中。比如以第2个r结尾的最长子字符串是ar。但第三个a和第一个a出现重复，第一个a包含在ar中，此时f(i+1)为两个a的下标之差。
+
+每次得到以第i个字符为结尾的子字符串的长度后就和max_len进行比较，直到最后得到以s中所有字符为结尾的最长子字符串中最长的那个就是结果。
+判断某个字符是否出现过可以使用dict，基于hash查找的复杂度为O(1)。

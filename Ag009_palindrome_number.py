@@ -1,60 +1,29 @@
-"""
-Determine whether an integer is a palindrome.
-An integer is a palindrome when it reads the same backward as forward.
-
-Follow up: Could you solve it without converting the integer to a string?
-
-
-Example 1:
-Input: x = 121
-Output: true
-
-Example 2:
-Input: x = -121
-Output: false
-Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
-
-Example 3:
-Input: x = 10
-Output: false
-Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
-
-Example 4:
-
-Input: x = -101
-Output: false
-
-"""
-
-
-class Solution:
-
-    def num_of_digits(self, num: int):
-        if num == 0:
-            return 1
-        num = abs(num)
-        n = 0
-        while num != 0:
-            num //= 10
-            n += 1
-        return n
-
-    def is_palindrome(self, num: int):
-        if num < 0:
+class Solution(object):
+    def isPalindrome(self, x):
+        """
+        :type x: int
+        :rtype: bool
+        """
+        if x < 0:
             return False
-        n_digits = self.num_of_digits(num)
-        while n_digits > 1:
-            tmp = pow(10, n_digits-1)
-            l_bit = num % 10
-            h_bit = num // tmp
-            if l_bit != h_bit:
-                return False
-            num = num - tmp * h_bit
-            num = num // 10
-            n_digits -= 2
-        return True
+        
+        tmp = x
+        rev = 0
+        while x != 0:
+            d = x % 10
+            rev = rev * 10 + d
+            x //= 10
+        if rev == tmp:
+            return True
+        else:
+            return False
 
+        
 
-if __name__ == '__main__':
-    s = Solution()
-    print(s.is_palindrome(21012))
+思路：计算x的反序rev，如果和x相等则返回真，否则返回假。
+比如10021：
+1. 把个位1提取出来，加到rev中 =1，然后对1002进行操作；
+2. 把各位2提取出来，加到rev*10中 =1*10+2=12，然后对100进行操作
+3. 把各位0提取出来，加到rev*10中 =12*10+0=120，然后对10进行操作
+4. 把各位0提取出来，加到rev*10中 =120*10+0=1200，然后对1进行操作
+5. 把各位1提取出来，加到rev*10中 =1200*10+1=12001，结束

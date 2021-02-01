@@ -1,0 +1,32 @@
+class Solution:
+    
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        nrows, ncols = len(matrix), len(matrix[0])
+        
+        def mark(ir, ic):
+            for k in range(ncols):
+                if matrix[ir][k] != 0:
+                    matrix[ir][k] = 'm'
+            for k in range(nrows):
+                if matrix[k][ic] != 0:
+                    matrix[k][ic] = 'm'
+                    
+        for ir in range(nrows):
+            for ic in range(ncols):
+                if matrix[ir][ic] == 0:
+                    mark(ir, ic)
+        
+        for ir in range(nrows):
+            for ic in range(ncols):
+                if matrix[ir][ic] == 'm':
+                    matrix[ir][ic] = 0
+
+
+
+总结：
+如果一找到0就把整行整列都变为零的话，会直接影响后面对元素的判断。
+因此在第一次遍历过程中，当发现某个元素为0时，先将整行整列mark为'm'（与0区别开）。
+再在第二次遍历的过程中，将那些被mark的元素再改为0。

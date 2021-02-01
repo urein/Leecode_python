@@ -1,0 +1,35 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        longest_pali = ''
+        
+        for i in range(len(s)):
+            
+            # case1: cbabc
+            pali = self.get_palindrome(s, i, i)  
+            if len(pali) > len(longest_pali):
+                longest_pali = pali
+            
+            # case 2: bbaa
+            pali = self.get_palindrome(s, i, i+1)
+            if len(pali) > len(longest_pali):
+                longest_pali = pali
+        
+        return longest_pali
+            
+    
+    def get_palindrome(self, s: str, il: int, ir: int) -> str:
+        while il >= 0 and ir < len(s):
+            if s[il] != s[ir]:
+                break
+            il -= 1
+            ir += 1
+        return s[il+1: ir]
+        
+        
+        
+        
+总结：
+对s中的每个一个字符c，都通过get_palindrome寻找以c为中心的最长回文。回文有两种形况：
+1. 个数为奇数的回文，比如addcdda
+2. 个数为偶数的回文，比如aabbaa
+两种情况都需要分别考虑。如果找到的回文长度大于当前找到的最长回文，则覆盖它。

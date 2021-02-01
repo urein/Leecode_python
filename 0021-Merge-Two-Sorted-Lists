@@ -13,13 +13,38 @@ class Solution:
             return l1
         else:
             l2.next = self.mergeTwoLists(l1, l2.next)
-            return l2
-
-
+            return l2 
         
-        
-总结：
-使用递归。
+方法1：使用递归
 首先比较l1和l2的值谁小，小的作为合并链表的头节点，这里假设为p。剩余问题还是合并（剩余的）链表，同样的过程 ==> 使用递归解决。
 假设通过调用mergeTwoLists()将剩余的两个子链表合成好了。然后让p.next指向mergeTwoLists函数的返回值。
 最后不要忘记返回p。要不然递归函数没有返回值了，中间的递归过程也会失败。
+
+
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy = ListNode(-1)
+        cur = dummy
+        while l1 and l2:
+            if l1.val < l2.val:
+                cur.next = l1
+                l1 = l1.next
+            else:
+                cur.next = l2
+                l2 = l2.next
+            cur = cur.next
+        cur.next = l1 or l2
+        
+        return dummy.next
+
+
+方法2：不使用递归，效率更高
+设置一个dummy作为合并后链表的头节点。在while循环体中依次比价两个子链表头节点大小，让cur.next指向小的那个
+然后将对应子链表的头节点后移，再将cur后移。直到有一个子链表被耗尽，让cur指向另一个未耗尽的子链表头：cur.next = l1 or l2 还是很巧妙的。

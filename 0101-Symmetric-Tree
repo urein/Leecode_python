@@ -1,0 +1,34 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        if root is None:
+            return True
+        if root.left is None and root.right is None:
+            return True
+        if root.left is None or root.right is None:
+            return False  
+        
+        return self.is_same(root.left, root.right)
+    
+    def is_same(self, left, right):
+        if left is None and right is None:
+            return True
+        if left is None or right is None:
+            return False
+        if left.val != right.val:
+            return False
+        return self.is_same(left.left, right.right) and self.is_same(left.right, right.left)
+        
+
+
+
+总结：
+如果输入的root是空的，则返回True。如果root.left和root.right都是None，则返回True。否则只有一个是None则返回False。
+一般情况需要借助另一个函数递归地分别判断左右两个分支。
+如果分支的左右节点均为None则返回True；如果只有一个是None则返回False；如果两个数值不相等则返回False。
+接下来递归地调用该函数，判断左子树的右节点和右子树的左节点，以及左子树的左节点和右子树的右节点是否满足对称的条件。

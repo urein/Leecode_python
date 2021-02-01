@@ -1,0 +1,14 @@
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        from bisect import bisect_right
+        i_row = bisect_right([m_row[0] for m_row in matrix], target) - 1
+        i_col = bisect_right(matrix[i_row], target) - 1
+        return matrix[i_row][i_col] == target
+        
+        
+        
+总结：
+使用Python中的bisect可以实现二分查找。bisect默认是bisect_left，这里应该使用bisect_right。
+即如果有相同的元素，则找到最右侧元素所在位置之后的位置。
+对于bisect_right(it, target)，it是有序序列，返回一个index，可以在返回的idx处插入target并保持序列it依然有序。
+分别对第一列和所在行使用bisect，得到行列坐标后与target比较。
